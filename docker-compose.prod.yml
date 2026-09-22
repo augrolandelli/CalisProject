@@ -1,0 +1,62 @@
+# Docker Compose de producción para Easy Panel / VPS.
+# Uso local (con variables en .env):
+#   docker compose -f docker-compose.prod.yml up -d --build
+#
+# En Easy Panel podés subir este archivo y dejar que el panel levante ambos servicios.
+
+services:
+  api:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: calisapp-api
+    restart: unless-stopped
+    ports:
+      - "5000:5000"
+    environment:
+      ASPNETCORE_ENVIRONMENT: Production
+      ASPNETCORE_URLS: http://+:5000
+      ConnectionStrings__DefaultConnection: "Server=sqlserver,1433;Database=CalisAppDb;User Id=sa;Password=${MSSQL_SA_PASSWORD};TrustServerCertificate=True"
+      Jwt__Key: ${JWT_KEY}
+      Jwt__Issuer: CalisApi
+      Jwt__Audience: CalisApp
+      Jwt__AccessTokenMinutes: 30
+      Jwt__RefreshTokenDays: 14
+      Cors__AllowedOrigins__0: ${FRONTEND_URL}
+      Storage__Provider: Local
+      Storage__LocalPath: /app/storage
+      Push__VapidPublicKey: ${VAPID_PUBLIC_KEY:-}
+      Push__VapidPrivateKey: ${VAPID_PRIVATE_KEY:-}
+      Push__Subject: ${VAPID_SUBJECT:-mailto:admin@calisapp.com}
+    volumes:
+      - storage-data:/app/storage
+    depends_on:
+      sqlserver:
+        condition: service_healthy
+    networks:
+      - calisapp-network
+
+  sqlserver:
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    container_name: calisapp-sqlserver
+    restart: unless-stopped
+    environment:
+      ACCEPT_EULA: "Y"
+      MSSQL_SA_PASSWORD: ${MSSQL_SA_PASSWORD}
+    volumes:
+      - sqlserver-data:/var/opt/mssql
+    healthcheck:
+      test: /opt/mssql-tools18/bin/sqlcmd -S localhost -U sa -P "$$MSSQL_SA_PASSWORD" -C -Q "SELECT 1" || exit 1
+      interval: 10s
+      timeout: 3s
+      retries: 10
+      start_period: 30s
+    networks:
+      - calisapp-network
+
+volumes:
+  storage-data:
+  sqlserver-data:
+
+networks:
+  calisapp-network:

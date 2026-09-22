@@ -1,0 +1,31 @@
+.git
+.gitignore
+*.md
+
+# Frontend (no se incluye en la imagen del backend).
+frontend/
+frontend/node_modules/
+frontend/dist/
+
+# Backend
+backend/CalisApi/bin/
+backend/CalisApi/obj/
+backend/CalisApi/publish/
+backend/CalisApi/storage/
+backend/CalisApi.Tests/bin/
+backend/CalisApi.Tests/obj/
+
+# Configuración local y secretos
+*.env
+.env.*
+!.env.example
+appsettings.Development.json
+
+# IDEs
+.vs/
+.vscode/
+.idea/
+
+# OS
+Thumbs.db
+.DS_Store

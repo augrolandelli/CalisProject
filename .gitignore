@@ -1,0 +1,32 @@
+# ---- .NET ----
+bin/
+obj/
+out/
+*.user
+*.suo
+.vs/
+
+# ---- Node / Vite ----
+node_modules/
+dist/
+dist-ssr/
+*.local
+.dev/
+test-results/
+playwright-report/
+
+# ---- Storage local de la API (archivos subidos en desarrollo) ----
+storage/
+
+# ---- Entorno / secretos ----
+.env
+.env.*
+!.env.example
+**/secrets.json
+**/appsettings.Development.json
+**/appsettings.Production.json
+
+# ---- Sistema ----
+.DS_Store
+Thumbs.db
+~$*
