@@ -7,6 +7,7 @@ import { RequireAuth } from './features/auth/components/RequireAuth'
 import { RequireRole } from './features/auth/components/RequireRole'
 import LoginPage from './features/auth/pages/LoginPage'
 import RegisterPage from './features/auth/pages/RegisterPage'
+import GuidePage from './features/guide/pages/GuidePage'
 import DashboardPage from './features/dashboard/pages/DashboardPage'
 import ClassesPage from './features/classes/pages/ClassesPage'
 import ClassDetailPage from './features/classes/pages/ClassDetailPage'
@@ -41,6 +42,8 @@ export default function App() {
         <Route path="/register" element={<RegisterPage />} />
 
         <Route element={<RequireAuth />}>
+          <Route path="/guia" element={<GuidePage />} />
+
           <Route element={<AppLayout />}>
             <Route index element={<DashboardPage />} />
             <Route path="classes" element={<ClassesPage />} />

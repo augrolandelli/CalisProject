@@ -169,6 +169,10 @@ export default function ProfilePage() {
 
       {user.role === 'Admin' && <Link to="/admin" className="mb-4 block rounded-2xl border border-accent/40 p-4 text-center font-bold text-accent">Panel de administración</Link>}
 
+      <Link to="/guia" className="mb-4 block rounded-2xl border border-white/20 bg-surface p-4 text-center font-bold text-foreground hover:border-accent/40">
+        Guía de uso
+      </Link>
+
       <button
         onClick={handleLogout}
         className="w-full rounded-2xl border border-danger/50 py-3.5 font-bold text-danger"
