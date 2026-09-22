@@ -3,16 +3,17 @@
 #   docker compose -f docker-compose.prod.yml up -d --build
 #
 # En Easy Panel podés subir este archivo y dejar que el panel levante ambos servicios.
+# Nota: Easy Panel gestiona sus propias redes y nombres de contenedor, por eso no se
+# definen explícitamente aquí.
 
 services:
   api:
     build:
       context: .
       dockerfile: Dockerfile
-    container_name: calisapp-api
     restart: unless-stopped
-    ports:
-      - "5000:5000"
+    expose:
+      - "5000"
     environment:
       ASPNETCORE_ENVIRONMENT: Production
       ASPNETCORE_URLS: http://+:5000
@@ -33,12 +34,9 @@ services:
     depends_on:
       sqlserver:
         condition: service_healthy
-    networks:
-      - calisapp-network
 
   sqlserver:
     image: mcr.microsoft.com/mssql/server:2022-latest
-    container_name: calisapp-sqlserver
     restart: unless-stopped
     environment:
       ACCEPT_EULA: "Y"
@@ -51,12 +49,7 @@ services:
       timeout: 3s
       retries: 10
       start_period: 30s
-    networks:
-      - calisapp-network
 
 volumes:
   storage-data:
   sqlserver-data:
-
-networks:
-  calisapp-network:
