@@ -130,6 +130,13 @@ if (app.Environment.IsDevelopment())
 if (app.Environment.IsProduction())
 {
     await app.ApplyMigrationsAsync();
+
+    using var seedScope = app.Services.CreateScope();
+    var db = seedScope.ServiceProvider.GetRequiredService<CalisDbContext>();
+    var hasher = seedScope.ServiceProvider.GetRequiredService<IPasswordHasher>();
+    var config = seedScope.ServiceProvider.GetRequiredService<IConfiguration>();
+    var logger = seedScope.ServiceProvider.GetRequiredService<ILogger<Program>>();
+    await AdminSeeder.SeedAsync(db, hasher, config, logger);
 }
 
 app.UseSerilogRequestLogging();

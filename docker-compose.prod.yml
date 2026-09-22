@@ -29,6 +29,11 @@ services:
       Push__VapidPublicKey: ${VAPID_PUBLIC_KEY:-}
       Push__VapidPrivateKey: ${VAPID_PRIVATE_KEY:-}
       Push__Subject: ${VAPID_SUBJECT:-mailto:admin@calisapp.com}
+      # Seeding opcional de un usuario admin en producción si aún no existe ninguno.
+      AdminSeed__Email: ${ADMIN_SEED_EMAIL:-admin@calisapp.com}
+      AdminSeed__Password: ${ADMIN_SEED_PASSWORD:-Admin123!}
+      AdminSeed__FullName: ${ADMIN_SEED_FULL_NAME:-Admin CalisApp}
+      AdminSeed__Phone: ${ADMIN_SEED_PHONE:-0000000000}
     volumes:
       - storage-data:/app/storage
     depends_on:
