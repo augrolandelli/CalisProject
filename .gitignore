@@ -16,7 +16,10 @@ test-results/
 playwright-report/
 
 # ---- Storage local de la API (archivos subidos en desarrollo) ----
-storage/
+# Solo ignorar la carpeta de uploads en la raíz y la de desarrollo del backend.
+# NO ignorar backend/CalisApi/Services/Storage (código fuente del proveedor).
+/storage/
+backend/CalisApi/storage/
 
 # ---- Entorno / secretos ----
 .env
